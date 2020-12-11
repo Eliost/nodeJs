@@ -1,6 +1,7 @@
 // import des methodes du controller
 const crmControllers = require('../controllers/crmControllers');
 const crmControllersPlayers = require('../controllers/crmControllersPlayers');
+const crmControllersCars = require('../controllers/crmControllersCars');
 
 const routes = (app) => {
     //routes initiale des contacts
@@ -52,5 +53,25 @@ const routes = (app) => {
      // delete pour effacer un contact
      .delete(crmControllersPlayers.deletePlayer);
  
+   //routes pour voiture
+   app.route('/car')
+   .get( (req, res, next) =>{
+       console.log('method get from ' + req.originalUrl);
+       console.log('method ? ' + req.method);
+       next();
+    }, crmControllersCars.getsCars)
+    // post pour créer une nouvelle voiture
+    .post( crmControllersCars.addNewCar );
+
+    //route de gestion d'une voiture
+    app.route('/car/:carId')
+    // retourne une seul voiture par son Id
+    .get(crmControllersCars.getCarById)
+
+    // put pour modifier une voiture
+    .put(crmControllersCars.updateCar)
+    
+    // delete pour effacer une voiture
+    .delete(crmControllersCars.deleteCar);  
 };
 exports.routes = routes;
